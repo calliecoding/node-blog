@@ -1,0 +1,97 @@
+<%- include('./layout')%>
+<div class="center">
+
+    <%if(data.contents[0]){%>
+        <div class="article_list">
+            <%for(let i=0;i<data.contents.length;i++){%>
+            <div class="article_item">
+                <h3><%=data.contents[i].title%></h3>
+                <div class="article_main">
+                    <p class="article_content ellipsis_4">
+                        <%=data.contents[i].description%>
+                    </p>
+                </div>
+                <div class="article_tag">
+                    <a></a>
+                    <span><%=data.contents[i].category.name%></span>
+                    <a class="btn btn-default" style='margin-left:20px' href="/view?contentId=<%=data.contents[i]._id%>">阅读全文</a>
+                    <i><%=data.contents[i].time.toLocaleString()%></i>
+                </div>
+            </div>
+            <%}%>
+            <nav aria-label="...">
+                <ul class="pager">
+                    <li class="previous"><a href="?category=<%= data.ncategory%>&page=<%=data.page===1?1:(data.page-1)%>"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+                    <li><%=data.page%>/<%=data.pageMax%></li>
+                    <li class="next"><a href="?category=<%= data.ncategory%>&page=<%=data.page===data.pageMax?data.pageMax:data.page+1%>">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    <%}else{%>
+        <div class="article_list">
+            <nav aria-label="...">
+                <ul class="pager">
+                    <li>o( =•ω•= )m 发表一篇文章吧~</li>
+                </ul>
+            </nav>
+        </div>
+    <%}%>
+
+    <aside class="user_list">
+    <% if(!userInfo){%>
+        <div class="user_form">
+            <div class="user_tab j_userTab">
+                <span class="user_cur">登录</span>
+                <span>注册</span>
+            </div>
+            <div id="login" class="user_login">
+                <div class="user_input">
+                    <i class="iconfont">&#xe60d;</i>
+                    <input type="text" placeholder="请输入用户名" id="username">
+                </div>
+                <div class="user_input margin_bottom0">
+                    <i class="iconfont">&#xe6c6;</i>
+                    <input type="password" placeholder="请输入密码" id="password">
+                </div>
+                <p class="user_err"><span></span></p>
+                <p class="user_login_btn">登 录</p>
+            </div>
+            <div id="register" class="user_register">
+                <div class="user_input">
+                    <i class="iconfont">&#xe60d;</i>
+                    <input type="text" placeholder="请输入用户名" id="regUser">
+                </div>
+                <div class="user_input">
+                    <i class="iconfont">&#xe6c6;</i>
+                    <input type="password" placeholder="请输入密码" id="regPsd">
+                </div>
+                <div class="user_input margin_bottom0">
+                    <i class="iconfont">&#xe6c6;</i>
+                    <input type="password" placeholder="请再次输入密码" id="regRepsd">
+                </div>
+                <p class="user_err"><span></span></p>
+                <p class="user_register_btn">注 册</p>
+            </div>
+        </div>
+    <%}else{%>
+        <div class="user_logined">
+            <%if(userInfo.isAdmin){%>
+                <p class="user_welcome">欢迎，管理员
+                    <i><%= userInfo.username%></i>
+                    <a href="/admin">进入后台管理面板</a>
+                </p>
+            <%}else{%>
+                <p class="user_welcome">欢迎，<i><%= userInfo.username%></i></p>
+            <%}%>
+
+            <span class="user_loginOut">退出</span>
+        </div>
+    <%}%>
+    </aside>
+</div>
+
+
+<script src="/js/ajax.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
